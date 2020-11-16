@@ -1,8 +1,14 @@
 ## 책 예제코드 프로토타입핑
 
-###  스무디 한잔 마시며 끝내는 ReactNative
-- 시작: 2020.08.15
-- react-native
+### 모던 자바스크립트 Deep Dive: 자바스크립트의 기본 개념과 동작
+
+-   시작: 2020.11.16
+-   프로젝트: javascript-deep-dive
+
+### 스무디 한잔 마시며 끝내는 ReactNative
+
+-   시작: 2020.08.15
+-   react-native
 
 ### aws-typesciprt-vue
 
