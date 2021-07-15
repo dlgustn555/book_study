@@ -3,7 +3,8 @@ import './App.css';
 
 function App() {
     const a = 'asdfa;lskdjfa;lsdjfa;lskdjfalksdjfkasjdf;laskjdfl;kasjdlfkajsdlkfjasldkjfal;skdjf;alsdjflas';
-
+    console.log(a)
+    
     return (
 <div className="App">
             <header className="App-header">
