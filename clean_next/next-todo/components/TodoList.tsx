@@ -1,10 +1,14 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
+import { useRouter } from 'next/router'
 import styled from 'styled-components'
+
 import { TodoType } from '../types/todo'
 import palette from '../styles/palette'
 
 import TrashCanIcon from '../public/statics/svg/trash_can.svg'
 import CheckMarkIcon from '../public/statics/svg/check_mark.svg'
+
+import { patchTodoAPI } from '../lib/api/todo'
 
 const Container = styled.div`
     width: 100%;
@@ -122,6 +126,9 @@ interface Props {
 }
 
 const TodoList: FC<Props> = ({ todos }) => {
+  const Router = useRouter()
+  const [localTodos, setLocalTodos] = useState<TodoType[]>(todos)
+
   const getTodoColorNums = () => todos.reduce((acc, todo) => {
     acc[todo.color] += 1
     return acc
@@ -133,12 +140,17 @@ const TodoList: FC<Props> = ({ todos }) => {
     console.log(todo)
   }
 
+  const toggleCheckedStatus = async (todoId: number) => {
+    const { data: newTodos } = await patchTodoAPI(todoId)
+    setLocalTodos(newTodos)
+  }
+
   const handleCheckedIconClick = (todo: TodoType) => () => {
-    console.log(todo)
+    toggleCheckedStatus(todo.id)
   }
 
   const handleUnCheckedIconClick = (todo: TodoType) => () => {
-    console.log(todo)
+    toggleCheckedStatus(todo.id)
   }
 
   return (
@@ -156,7 +168,7 @@ const TodoList: FC<Props> = ({ todos }) => {
           ))}
         </div>
         <ul className="todo-list">
-          {todos.map((todo) => (
+          {localTodos.map((todo) => (
             <li className="todo-item" key={todo.id}>
 
               <div className="todo-left-side">
