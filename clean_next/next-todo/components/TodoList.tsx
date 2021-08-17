@@ -8,7 +8,7 @@ import palette from '../styles/palette'
 import TrashCanIcon from '../public/statics/svg/trash_can.svg'
 import CheckMarkIcon from '../public/statics/svg/check_mark.svg'
 
-import { patchTodoAPI } from '../lib/api/todo'
+import { patchTodoAPI, deleteTodoAPI, getTodosAPI } from '../lib/api/todo'
 
 const Container = styled.div`
     width: 100%;
@@ -136,8 +136,10 @@ const TodoList: FC<Props> = ({ todos }) => {
 
   const todoColorNums: {[key: string]: number} = getTodoColorNums()
 
-  const handleTrashCanIconClick = (todo: TodoType) => () => {
-    console.log(todo)
+  const handleTrashCanIconClick = (todo: TodoType) => async () => {
+    await deleteTodoAPI(todo.id)
+    const { data } = await getTodosAPI()
+    setLocalTodos(data)
   }
 
   const toggleCheckedStatus = async (todoId: number) => {
@@ -159,6 +161,7 @@ const TodoList: FC<Props> = ({ todos }) => {
         <p className="todo-list-last-todo">
           남은 TODO<span>{todos.length}개</span>
         </p>
+
         <div className="todo-list-header-colors">
           {Object.keys(todoColorNums).map((color: string, index: number) => (
             <div className="todo-list-header-color-num" key={index}>
@@ -167,6 +170,7 @@ const TodoList: FC<Props> = ({ todos }) => {
             </div>
           ))}
         </div>
+
         <ul className="todo-list">
           {localTodos.map((todo) => (
             <li className="todo-item" key={todo.id}>

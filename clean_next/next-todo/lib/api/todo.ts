@@ -9,3 +9,7 @@ import { TodoType } from '../../types/todo'
 export const getTodosAPI = () => api.get<TodoType[]>('/api/todos')
 
 export const patchTodoAPI = (id: number) => api.patch<TodoType[]>(`/api/todos/${id}`)
+
+export const addTodoAPI = (body: {text: string, color: TodoType['color']}) => api.post('/api/todos', body)
+
+export const deleteTodoAPI = (id: number) => api.delete(`/api/todos/${id}`)
