@@ -2,6 +2,7 @@ import * as React from 'react'
 import { AppProps } from 'next/app'
 import GlobalStyle from '../styles/GlobalStyle'
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 /**
  * 1. 페이지들의 공통된 레이아웃
@@ -15,6 +16,7 @@ const app = ({ Component, pageProps }: AppProps) => {
       <GlobalStyle />
       <Header />
       <Component {...pageProps} />
+      <Footer />
     </>
   )
 }

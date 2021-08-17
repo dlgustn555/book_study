@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react'
-import { useRouter } from 'next/router'
 import styled from 'styled-components'
 
 import { TodoType } from '../types/todo'
@@ -126,7 +125,6 @@ interface Props {
 }
 
 const TodoList: FC<Props> = ({ todos }) => {
-  const Router = useRouter()
   const [localTodos, setLocalTodos] = useState<TodoType[]>(todos)
 
   const getTodoColorNums = () => todos.reduce((acc, todo) => {
