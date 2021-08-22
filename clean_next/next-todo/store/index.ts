@@ -1,11 +1,15 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux'
 import { HYDRATE, createWrapper } from 'next-redux-wrapper'
+import { configureStore, combineReducers } from '@reduxjs/toolkit'
+import { TypedUseSelectorHook, useSelector as useReduxSelector } from 'react-redux'
 
+// 리듀서 모듈 import
 import todo from './todo'
+
+export const useSelector: TypedUseSelectorHook<RootState> = useReduxSelector
 
 // 리듀서들을(ex todo) 모듀렬로 관리하여, combineReducers를 사용하여 하나로 모으게 된다.
 const rootReducer = combineReducers({
-  todo
+  todo: todo.reducer
 })
 
 // 합쳐진 리듀서에 타입이 '__NEXT_REDUX_WRAPPER_HYDRATE__' 인 리듀서를 추가한다.
@@ -16,6 +20,11 @@ const reducer = (state: any, action: any) => {
       ...state,
       ...action.payload
     }
+
+    if (state.count) {
+      nextState.count = state.count
+    }
+
     return nextState
   }
 
@@ -25,18 +34,12 @@ const reducer = (state: any, action: any) => {
 // 스토어의 타입
 export type RootState = ReturnType<typeof rootReducer>
 
-// 미들웨어 적용을 위한 스토어 enhancer
-const bindMiddleware = (middleware: any) => {
-  if (process.env.NODE_ENV !== 'production') {
-    const { composeWithDevTools } = require('redux-devtools-extension')
-    return composeWithDevTools(applyMiddleware(...middleware))
-  }
-  return applyMiddleware(...middleware)
-}
-
 // 리덕스 스토어를 만들어 리턴한다.
 const initStore = () => {
-  return createStore(reducer, bindMiddleware([]))
+  return configureStore({
+    reducer,
+    devTools: true
+  })
 }
 
 export const wrapper = createWrapper(initStore)
